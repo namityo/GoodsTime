@@ -1,5 +1,15 @@
 ﻿@page
+@using GoodsTime.Models.Extensions
 @model GoodsTime.Pages.Goods.EditModel
+@section scripts {
+<script type="text/javascript" src="/js/jquery.qrcode.min.js"></script>
+<script>
+	$(function() {
+		var url = "@Model.Goods.CreateUrl()"
+		$("#qrcode").qrcode({ width: 128, height: 128, text: url });
+	})
+</script>
+}
 @{
 }
 
@@ -21,9 +31,16 @@
 
 				<div class="mb-3">
 					<input type="submit" value="Update" class="btn btn-primary" />
+
+					<!-- これSessionが使えるといい -->
 					<input hidden asp-for="Goods.UpdateId" class="form-control" />
 				</div>
 			</form>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div id="qrcode"></div>
 		</div>
 	</div>
 </div>
