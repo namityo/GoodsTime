@@ -1,5 +1,5 @@
 ﻿@page
-@model GoodsTime.Pages.Goods.AddModel
+@model GoodsTime.Pages.Goods.EditModel
 @{
 }
 
@@ -20,7 +20,8 @@
 				</div>
 
 				<div class="mb-3">
-					<input type="submit" value="Create" class="btn btn-primary" />
+					<input type="submit" value="Update" class="btn btn-primary" />
+					<input hidden asp-for="Goods.UpdateId" class="form-control" />
 				</div>
 			</form>
 		</div>

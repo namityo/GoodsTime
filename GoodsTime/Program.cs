@@ -1,3 +1,28 @@
+using SqlKata.Compilers;
+using SqlKata.Execution;
+using System.Data.SQLite;
+
+// Build DataBase
+var cs = $"Data Source=db.sqlite;Version=3;";
+using (var connection = new SQLiteConnection(cs))
+{
+    connection.Open();
+    var sql = """
+        create table if not exists Goods (
+            Id integer primary key autoincrement,
+            Number text,
+            Description text,
+            RegisterDate text not null,
+            UpdateDate text not null,
+            UpdateId text not null
+            )
+        """;
+    var com = new SQLiteCommand(sql, connection);
+    com.ExecuteNonQuery();
+}
+
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
