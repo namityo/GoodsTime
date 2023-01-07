@@ -1,1 +1,1 @@
-dotnet publish -c Release -r linux-x64 -p:PublishSingleFile=true --self-contained true
+dotnet publish ./GoodsTime/GoodsTime.csproj -c Release -r linux-x64 -p:PublishSingleFile=true -o publish/linux-x64 --self-contained true
