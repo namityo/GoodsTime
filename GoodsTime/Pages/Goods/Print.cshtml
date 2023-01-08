@@ -33,11 +33,11 @@
 									<tbody>
 										<tr>
 											<th><small>@Html.DisplayNameFor(m => item.GetDate)</small></th>
-											<td style="padding-left: 1rem"><small>@item.GetDate</small></td>
+											<td style="padding-left: 1rem"><small>@item.GetDate?.ToString("yyyy/MM/dd")</small></td>
 										</tr>
 										<tr>
 											<th><small>@Html.DisplayNameFor(m => item.ReleaseDate)</small></th>
-											<td style="padding-left: 1rem"><small>@item.ReleaseDate</small></td>
+											<td style="padding-left: 1rem"><small>@item.ReleaseDate?.ToString("yyyy/MM/dd")</small></td>
 										</tr>
 									</tbody>
 								</table>
