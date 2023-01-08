@@ -1,3 +1,4 @@
+using GoodsTime.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SqlKata;
@@ -24,19 +25,9 @@ namespace GoodsTime.Pages.Goods
             Goods.RegisterDate = now;
             Goods.UpdateDate = now;
 
-			// “o˜^ˆ—
-			var cs = $"Data Source=db.sqlite;Version=3;";
-			using (var connection = new SQLiteConnection(cs))
-            using (var db = new QueryFactory(connection, new SqliteCompiler()))
-            {
-                db.Logger = compiled => {
-                    Console.WriteLine(compiled.ToString());
-                };
+            await new GoodsStore().Add(Goods);
 
-                await db.Query("Goods").InsertAsync(Goods);
-			}
-
-			return RedirectToPage("./Index");
+			return RedirectToPage("/Goods/Index");
         }
     }
 }

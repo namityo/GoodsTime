@@ -1,3 +1,4 @@
+using GoodsTime.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SqlKata.Compilers;
@@ -19,7 +20,7 @@ namespace GoodsTime.Pages.Goods
         {
 			if (id.HasValue)
 			{
-				var r = await SelectGoods(id.Value);
+				var r = await new GoodsStore().SelectAt(id.Value);
 				if(r != null)
 				{
 					Goods = r;
@@ -37,8 +38,8 @@ namespace GoodsTime.Pages.Goods
 		{
 			if (id.HasValue)
 			{
-				var r = await SelectGoods(id.Value);
-				if (r != null)
+				var r = await new GoodsStore().SelectAt(id.Value);
+                if (r != null)
 				{
 					// ‰æ–Ê•\Ž¦Žž‚ÌUpdateId‚ðŽæ“¾(ŠyŠÏ”r‘¼)
 					var oldUpdateId = Goods.UpdateId;
@@ -53,44 +54,13 @@ namespace GoodsTime.Pages.Goods
 					r.Refresh();
 
 					// “o˜^ˆ—
-					var cs = $"Data Source=db.sqlite;Version=3;";
-					using (var connection = new SQLiteConnection(cs))
-					using (var db = new QueryFactory(connection, new SqliteCompiler()))
-					{
-						db.Logger = compiled => {
-							Console.WriteLine(compiled.ToString());
-						};
+					var result = new GoodsStore().UpdateAt(r, oldUpdateId);
 
-						var result = await db.Query("Goods").Where("Id", r.Id).Where("UpdateId", oldUpdateId).UpdateAsync(r);
-
-						return RedirectToPage("./Index");
-					}
-				}
+                    return RedirectToPage("/Goods/Index");
+                }
 			}
 
 			return NotFound();
-		}
-
-		private async Task<Models.Goods?> SelectGoods(int id)
-		{
-			var cs = $"Data Source=db.sqlite;Version=3;";
-			using (var connection = new SQLiteConnection(cs))
-			using (var db = new QueryFactory(connection, new SqliteCompiler()))
-			{
-				db.Logger = compiled => {
-					Console.WriteLine(compiled.ToString());
-				};
-
-				var result = await db.Query("Goods").Where("Id", id).GetAsync<Models.Goods>();
-				if (result.Any())
-				{
-					return result.First();
-				}
-				else
-				{
-					return null;
-				}
-			}
 		}
 
 		private async ValueTask<IEnumerable<Models.StocktakingEvent>> SelectStocktakingEvent(int id)

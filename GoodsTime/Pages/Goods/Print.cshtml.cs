@@ -17,17 +17,14 @@ namespace GoodsTime.Pages.Goods
 
 		public IActionResult OnGet()
         {
-            return RedirectToPage("./Index");
+            return RedirectToPage("/Goods/Index");
         }
 
         public async Task OnPostPrint()
         {
             if (Targets.Any())
             {
-                var result = await SelectItems();
-
-                // BindProperty‚É“o˜^
-                Items = result.ToList();
+                Items = await new GoodsStore().SelectAt(Targets);
 
 				// S3‚É“o˜^‚·‚é
 				var uploader = new S3Uploader<Models.Goods>();
@@ -36,20 +33,6 @@ namespace GoodsTime.Pages.Goods
 					await uploader.UploadGoodsAsync(item);
 				}
 			}
-        }
-
-        private async Task<IEnumerable<Models.Goods>> SelectItems()
-        {
-            var cs = $"Data Source=db.sqlite;Version=3;";
-            using (var connection = new SQLiteConnection(cs))
-            using (var db = new QueryFactory(connection, new SqliteCompiler()))
-            {
-                db.Logger = compiled => {
-                    Console.WriteLine(compiled.ToString());
-                };
-
-                return await db.Query("Goods").WhereIn("Id", Targets).GetAsync<Models.Goods>();
-            }
         }
     }
 }
