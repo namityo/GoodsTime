@@ -19,17 +19,5 @@ namespace GoodsTime.Models.Extensions
             var hash = sha256.ComputeHash(data);
             return string.Concat(hash.Select(b => $"{b:x2}"));
         }
-
-        public static string CreateUrl<T>(this T obj)
-        {
-            var hash = obj.ConvertJsonData().CreateHash();
-            return CreateUrl(hash);
-		}
-
-        public static string CreateUrl(string hash)
-		{
-			var s3url = "http://consisthackathon2023app.s3-website-ap-northeast-1.amazonaws.com/?id=";
-			return string.Concat(s3url, hash);
-		}
     }
 }
