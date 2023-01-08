@@ -25,7 +25,7 @@ namespace GoodsTime.Pages.Goods
 				{
 					Goods = r;
 
-					StocktakingEvent = await SelectStocktakingEvent(id.Value);
+					StocktakingEvent = await new StocktakingEventStore().SelectAtGoodsAsync(id.Value);
 
                     return Page();
 				}
@@ -62,24 +62,5 @@ namespace GoodsTime.Pages.Goods
 
 			return NotFound();
 		}
-
-		private async ValueTask<IEnumerable<Models.StocktakingEvent>> SelectStocktakingEvent(int id)
-		{
-            var cs = $"Data Source=db.sqlite;Version=3;";
-            using (var connection = new SQLiteConnection(cs))
-            using (var db = new QueryFactory(connection, new SqliteCompiler()))
-            {
-                db.Logger = compiled => {
-                    Console.WriteLine(compiled.ToString());
-                };
-
-                var result = await db.Query("StocktakingEvent")
-                    .Join("StocktakingGoodsEvent", "StocktakingEvent.Id", "StocktakingGoodsEvent.StocktakingId")
-					.Where("StocktakingGoodsEvent.GoodsId", id)
-					.GetAsync<Models.StocktakingEvent>();
-
-				return result.ToList();
-            }
-        }
 	}
 }

@@ -13,8 +13,8 @@ namespace GoodsTime.Context
         public async ValueTask<IEnumerable<Goods>> SelectAsync(int releaseType = 0)
         {
             var result = await Query
-                .OrderByDesc("UpdateDate")
                 .Where("ReleaseFlag", releaseType)
+                .OrderByDesc("UpdateDate")
                 .GetAsync<Goods>();
 
             return result.ToList();
@@ -22,7 +22,9 @@ namespace GoodsTime.Context
 
         public async ValueTask<IEnumerable<Goods>> SelectAtAsync(IEnumerable<int> ids)
         {
-            var result = await Query.WhereIn("Id", ids).GetAsync<Goods>();
+            var result = await Query
+                .WhereIn("Id", ids)
+                .GetAsync<Goods>();
 
             return result.ToList();
         }
@@ -34,6 +36,17 @@ namespace GoodsTime.Context
                 .GetAsync<Goods>();
 
             return result.FirstOrDefault();
+        }
+
+        public async ValueTask<IEnumerable<Goods>> SelectAtStocktakingAsync(int stocktakingId)
+        {
+            var result = await Query
+                .Join("StocktakingGoodsEvent", "Goods.Id", "StocktakingGoodsEvent.GoodsId")
+                .Where("StocktakingGoodsEvent.StocktakingId", stocktakingId)
+                .OrderByDesc("UpdateDate")
+                .GetAsync<Models.Goods>();
+
+            return result.ToList();
         }
 
         public async ValueTask AddAsync(Goods goods)

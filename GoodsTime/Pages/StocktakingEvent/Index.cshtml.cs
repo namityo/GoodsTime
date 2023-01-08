@@ -1,3 +1,4 @@
+using GoodsTime.Context;
 using GoodsTime.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -12,18 +13,9 @@ namespace GoodsTime.Pages.StocktakingEvent
         [BindProperty]
         public IEnumerable<Models.StocktakingEvent> Items { get; set; } = new List<Models.StocktakingEvent>();
 
-        public void OnGet()
+        public async void OnGet()
         {
-            var cs = $"Data Source=db.sqlite;Version=3;";
-            using (var connection = new SQLiteConnection(cs))
-            using (var db = new QueryFactory(connection, new SqliteCompiler()))
-            {
-                db.Logger = compiled => {
-                    Console.WriteLine(compiled.ToString());
-                };
-
-                Items = db.Query(nameof(Models.StocktakingEvent)).OrderByDesc("CreatedAt").Get<Models.StocktakingEvent>().ToList();
-            }
+            Items = await new StocktakingEventStore().SelectAsync();
         }
     }
 }

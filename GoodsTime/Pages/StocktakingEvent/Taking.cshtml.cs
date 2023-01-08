@@ -1,3 +1,4 @@
+using GoodsTime.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SqlKata.Compilers;
@@ -24,16 +25,16 @@ namespace GoodsTime.Pages.StocktakingEvent
         {
             if (id.HasValue)
             {
-                var r = await SelectStocktakingEvent(id.Value);
+                var r = await new StocktakingEventStore().SelectAtAsync(id.Value);
                 if (r != null)
                 {
                     StocktakingEvent = r;
 
                     // ’I‰µ‘ÎÛ‚ÌƒAƒCƒeƒ€‚ðŽæ“¾
-                    Items = await SelectGoods();
+                    Items = await new GoodsStore().SelectAsync();
 
                     // ’I‰µó‹µ‚ðŽæ“¾
-                    var events = await SelectStocktakingGoodsEvent(id.Value);
+                    var events = await new StocktakingGoodsEventStore().SelectAtStocktakingEventAsync(id.Value);
                     if (events != null && events.Any())
                     {
                         TakingEvents = events.Select((e) => e.GoodsId).ToHashSet();
@@ -53,71 +54,9 @@ namespace GoodsTime.Pages.StocktakingEvent
         /// <returns></returns>
         public async Task<IActionResult> OnPostTaking([FromBody]Models.StocktakingGoodsEvent dto)
         {
-            // ’I‰µî•ñ‚ð“o˜^‚·‚é
-            var cs = $"Data Source=db.sqlite;Version=3;";
-            using (var connection = new SQLiteConnection(cs))
-            using (var db = new QueryFactory(connection, new SqliteCompiler()))
-            {
-                db.Logger = compiled => {
-                    Console.WriteLine(compiled.ToString());
-                };
-
-                var result = await db.Query(nameof(Models.StocktakingGoodsEvent)).InsertAsync(dto);
-            }
+            await new StocktakingGoodsEventStore().Add(dto);
 
             return new JsonResult(new { success = "true" });
-        }
-
-        private async ValueTask<Models.StocktakingEvent?> SelectStocktakingEvent(int id)
-        {
-            var cs = $"Data Source=db.sqlite;Version=3;";
-            using (var connection = new SQLiteConnection(cs))
-            using (var db = new QueryFactory(connection, new SqliteCompiler()))
-            {
-                db.Logger = compiled => {
-                    Console.WriteLine(compiled.ToString());
-                };
-
-                var result = await db.Query(nameof(Models.StocktakingEvent)).Where("Id", id).GetAsync<Models.StocktakingEvent>();
-                if (result.Any())
-                {
-                    return result.First();
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-        private async ValueTask<IEnumerable<Models.StocktakingGoodsEvent>> SelectStocktakingGoodsEvent(int id)
-        {
-            var cs = $"Data Source=db.sqlite;Version=3;";
-            using (var connection = new SQLiteConnection(cs))
-            using (var db = new QueryFactory(connection, new SqliteCompiler()))
-            {
-                db.Logger = compiled => {
-                    Console.WriteLine(compiled.ToString());
-                };
-
-                var result = await db.Query(nameof(Models.StocktakingGoodsEvent)).Where("StocktakingId", id).GetAsync<Models.StocktakingGoodsEvent>();
-                return result.ToList();
-            }
-        }
-
-        private async ValueTask<IEnumerable<Models.Goods>> SelectGoods()
-        {
-            var cs = $"Data Source=db.sqlite;Version=3;";
-            using (var connection = new SQLiteConnection(cs))
-            using (var db = new QueryFactory(connection, new SqliteCompiler()))
-            {
-                db.Logger = compiled => {
-                    Console.WriteLine(compiled.ToString());
-                };
-
-                var result = await db.Query("Goods").OrderByDesc("UpdateDate").Where("ReleaseFlag", 0).GetAsync<Models.Goods>();
-                return result.ToList();
-            }
         }
     }
 }

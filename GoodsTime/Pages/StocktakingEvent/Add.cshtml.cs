@@ -1,3 +1,4 @@
+using GoodsTime.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SqlKata.Compilers;
@@ -21,17 +22,7 @@ namespace GoodsTime.Pages.StocktakingEvent
 
 			Event.CreatedAt = now;
 
-			// “o˜^ˆ—
-			var cs = $"Data Source=db.sqlite;Version=3;";
-			using (var connection = new SQLiteConnection(cs))
-			using (var db = new QueryFactory(connection, new SqliteCompiler()))
-			{
-				db.Logger = compiled => {
-					Console.WriteLine(compiled.ToString());
-				};
-
-				await db.Query(nameof(Models.StocktakingEvent)).InsertAsync(Event);
-			}
+			await new StocktakingEventStore().AddAsync(Event);
 
 			return RedirectToPage("/StocktakingEvent/Index");
 		}
