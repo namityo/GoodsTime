@@ -54,10 +54,10 @@ namespace GoodsTime.Context
             await Query.InsertAsync(goods);
         }
 
-        public async ValueTask<int> UpdateAtAsync(Goods goods, string updateId)
+        public async ValueTask<int> UpdateAtAsync(int id, string updateId, Goods.UpdateModel goods)
         {
             return await Query
-                .Where("Id", goods.Id)
+                .Where("Id", id)
                 .Where("UpdateId", updateId)
                 .UpdateAsync(goods);
         }

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GoodsTime.Models
 {
@@ -37,10 +38,42 @@ namespace GoodsTime.Models
 
         public string UpdateId { get; set; } = Guid.NewGuid().ToString();
 
-        public void Refresh()
+        /// <summary>
+        /// 更新用のモデル生成
+        /// </summary>
+        /// <returns></returns>
+        public UpdateModel AsUpdateModel() => new UpdateModel()
         {
-            UpdateDate = DateTime.Now;
-            UpdateId = Guid.NewGuid().ToString();
+            Number = Number,
+            Description = Description,
+            GetDate = GetDate,
+            ReleaseDate = ReleaseDate,
+            ReleaseFlag = ReleaseFlag,
+            ReleasedDate = ReleasedDate,
+            ReleaseDescription = ReleaseDescription,
+            UpdateDate = DateTime.Now,
+            UpdateId = Guid.NewGuid().ToString(),
+        };
+
+        public class UpdateModel
+        {
+            public string Number { get; set; } = string.Empty;
+
+            public string Description { get; set; } = string.Empty;
+
+            public DateTime? GetDate { get; set; }
+
+            public DateTime? ReleaseDate { get; set; }
+
+            public bool ReleaseFlag { get; set; }
+
+            public DateTime? ReleasedDate { get; set; }
+
+            public string ReleaseDescription { get; set; } = string.Empty; 
+
+            public DateTime UpdateDate { get; set; }
+
+            public string UpdateId { get; set; } = string.Empty; 
         }
     }
 }
