@@ -9,6 +9,12 @@ namespace GoodsTime.Pages.StocktakingEvent
 {
     public class ShowModel : PageModel
     {
+        private readonly GoodsStore _goodsStore;
+        private readonly StocktakingEventStore _stocktakingEventStore;
+
+        public ShowModel(GoodsStore goodsStore, StocktakingEventStore stocktakingEventStore)
+            => (_goodsStore, _stocktakingEventStore) = (goodsStore, stocktakingEventStore);
+
         [BindProperty]
         public IEnumerable<Models.Goods> Items { get; set; } = new List<Models.Goods>();
 
@@ -19,13 +25,13 @@ namespace GoodsTime.Pages.StocktakingEvent
         {
             if (id.HasValue)
             {
-                var r = await new StocktakingEventStore().SelectAtAsync(id.Value);
+                var r = await _stocktakingEventStore.SelectAtAsync(id.Value);
                 if (r != null)
                 {
                     StocktakingEvent = r;
 
                     // ’I‰µƒAƒCƒeƒ€‚ðŽæ“¾
-                    Items = await new GoodsStore().SelectAtStocktakingAsync(id.Value);
+                    Items = await _goodsStore.SelectAtStocktakingAsync(id.Value);
 
                     return Page();
                 }

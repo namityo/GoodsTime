@@ -11,6 +11,9 @@ namespace GoodsTime.Context
 
         private Query Query => QueryFactory.Query(TABLE_NAME);
 
+        public StocktakingGoodsEventStore(ILogger<StocktakingGoodsEventStore> logger)
+            => Logger = logger;
+
         public async ValueTask<IEnumerable<StocktakingGoodsEvent>> SelectAtStocktakingEventAsync(int id)
         {
             var result = await Query

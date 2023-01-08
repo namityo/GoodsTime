@@ -11,6 +11,17 @@ namespace GoodsTime.Pages.StocktakingEvent
     [IgnoreAntiforgeryToken]
     public class TakingModel : PageModel
     {
+        private readonly GoodsStore _goodsStore;
+        private readonly StocktakingEventStore _stocktakingEventStore;
+        private readonly StocktakingGoodsEventStore _stocktakingGoodsEventStore;
+
+        public TakingModel(
+            GoodsStore goodsStore,
+            StocktakingEventStore stocktakingEventStore,
+            StocktakingGoodsEventStore stocktakingGoodsEventStore)
+            => (_goodsStore, _stocktakingEventStore, _stocktakingGoodsEventStore)
+                = (goodsStore, stocktakingEventStore, stocktakingGoodsEventStore);
+
         [BindProperty]
         public IEnumerable<Models.Goods> Items { get; set; } = new List<Models.Goods>();
 
@@ -25,16 +36,16 @@ namespace GoodsTime.Pages.StocktakingEvent
         {
             if (id.HasValue)
             {
-                var r = await new StocktakingEventStore().SelectAtAsync(id.Value);
+                var r = await _stocktakingEventStore.SelectAtAsync(id.Value);
                 if (r != null)
                 {
                     StocktakingEvent = r;
 
                     // ’I‰µ‘ÎÛ‚ÌƒAƒCƒeƒ€‚ðŽæ“¾
-                    Items = await new GoodsStore().SelectAsync();
+                    Items = await _goodsStore.SelectAsync();
 
                     // ’I‰µó‹µ‚ðŽæ“¾
-                    var events = await new StocktakingGoodsEventStore().SelectAtStocktakingEventAsync(id.Value);
+                    var events = await _stocktakingGoodsEventStore.SelectAtStocktakingEventAsync(id.Value);
                     if (events != null && events.Any())
                     {
                         TakingEvents = events.Select((e) => e.GoodsId).ToHashSet();
@@ -54,7 +65,7 @@ namespace GoodsTime.Pages.StocktakingEvent
         /// <returns></returns>
         public async Task<IActionResult> OnPostTaking([FromBody]Models.StocktakingGoodsEvent dto)
         {
-            await new StocktakingGoodsEventStore().Add(dto);
+            await _stocktakingGoodsEventStore.Add(dto);
 
             return new JsonResult(new { success = "true" });
         }

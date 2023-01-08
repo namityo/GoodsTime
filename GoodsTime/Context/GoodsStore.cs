@@ -10,6 +10,9 @@ namespace GoodsTime.Context
 
         private Query Query => QueryFactory.Query(TABLE_NAME);
 
+        public GoodsStore(ILogger<GoodsStore> logger)
+            => Logger = logger;
+
         public async ValueTask<IEnumerable<Goods>> SelectAsync(int releaseType = 0)
         {
             var result = await Query

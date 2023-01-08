@@ -11,6 +11,11 @@ namespace GoodsTime.Pages.Goods
 {
     public class AddModel : PageModel
     {
+        private readonly GoodsStore _goodsStore;
+
+        public AddModel(GoodsStore goodsStore)
+            => _goodsStore = goodsStore;
+
         [BindProperty]
         public Models.Goods Goods { get; set; } = new Models.Goods();
 
@@ -25,7 +30,7 @@ namespace GoodsTime.Pages.Goods
             Goods.RegisterDate = now;
             Goods.UpdateDate = now;
 
-            await new GoodsStore().AddAsync(Goods);
+            await _goodsStore.AddAsync(Goods);
 
 			return RedirectToPage("/Goods/Index");
         }

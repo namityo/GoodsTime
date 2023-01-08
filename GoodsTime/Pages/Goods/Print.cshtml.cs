@@ -9,7 +9,12 @@ namespace GoodsTime.Pages.Goods
 {
     public class PrintModel : PageModel
     {
-		[BindProperty]
+        private readonly GoodsStore _goodsStore;
+
+        public PrintModel(GoodsStore goodsStore)
+            => _goodsStore = goodsStore;
+
+        [BindProperty]
 		public IEnumerable<Models.Goods> Items { get; set; } = new List<Models.Goods>();
 
         [BindProperty]
@@ -24,7 +29,7 @@ namespace GoodsTime.Pages.Goods
         {
             if (Targets.Any())
             {
-                Items = await new GoodsStore().SelectAtAsync(Targets);
+                Items = await _goodsStore.SelectAtAsync(Targets);
 
 				// S3‚É“o˜^‚·‚é
 				var uploader = new S3Uploader<Models.Goods>();

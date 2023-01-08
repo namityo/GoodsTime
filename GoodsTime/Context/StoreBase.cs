@@ -9,6 +9,8 @@ namespace GoodsTime.Context
     {
         public string ConnectionString { get; set; } = $"Data Source=db.sqlite;Version=3;";
 
+        public ILogger? Logger { get; set; }
+
         protected IDbConnection Connection => new SQLiteConnection(ConnectionString);
 
         protected Compiler Compiler => new SqliteCompiler();
@@ -17,11 +19,20 @@ namespace GoodsTime.Context
         {
             get
             {
-                var db = new QueryFactory(Connection, Compiler);
-                db.Logger = compiled =>
+                var db = new QueryFactory(Connection, Compiler)
                 {
-                    // TODO ILoggerで出力したい
-                    Console.WriteLine(compiled.ToString());
+                    Logger = compiled =>
+                    {
+                        var message = compiled.ToString();
+                        if (Logger != null)
+                        {
+                            Logger.LogInformation(message);
+                        }
+                        else
+                        {
+                            Console.WriteLine(message);
+                        }
+                    }
                 };
                 return db;
             }

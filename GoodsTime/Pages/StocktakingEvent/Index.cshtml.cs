@@ -10,12 +10,17 @@ namespace GoodsTime.Pages.StocktakingEvent
 {
     public class IndexModel : PageModel
     {
+        private readonly StocktakingEventStore _store;
+
+        public IndexModel(StocktakingEventStore store)
+            => _store = store;
+
         [BindProperty]
         public IEnumerable<Models.StocktakingEvent> Items { get; set; } = new List<Models.StocktakingEvent>();
 
         public async void OnGet()
         {
-            Items = await new StocktakingEventStore().SelectAsync();
+            Items = await _store.SelectAsync();
         }
     }
 }

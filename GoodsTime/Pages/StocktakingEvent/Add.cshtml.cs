@@ -9,6 +9,11 @@ namespace GoodsTime.Pages.StocktakingEvent
 {
     public class AddModel : PageModel
 	{
+		private readonly StocktakingEventStore _store;
+
+		public AddModel(StocktakingEventStore store)
+			=> _store = store;
+
 		[BindProperty]
 		public Models.StocktakingEvent Event { get; set; } = new Models.StocktakingEvent();
 
@@ -22,7 +27,7 @@ namespace GoodsTime.Pages.StocktakingEvent
 
 			Event.CreatedAt = now;
 
-			await new StocktakingEventStore().AddAsync(Event);
+			await _store.AddAsync(Event);
 
 			return RedirectToPage("/StocktakingEvent/Index");
 		}

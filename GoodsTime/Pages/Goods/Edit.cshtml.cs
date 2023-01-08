@@ -9,7 +9,15 @@ namespace GoodsTime.Pages.Goods
 {
     public class EditModel : PageModel
     {
-		[BindProperty]
+        private readonly GoodsStore _goodsStore;
+		private readonly StocktakingEventStore _stocktakingEventStore;
+
+		public EditModel(
+			GoodsStore goodsStore,
+            StocktakingEventStore stocktakingEventStore)
+			=> (_goodsStore, _stocktakingEventStore) = (goodsStore, stocktakingEventStore);
+
+        [BindProperty]
 		public Models.Goods Goods { get; set; } = new Models.Goods();
 
 		[BindProperty]
@@ -20,12 +28,12 @@ namespace GoodsTime.Pages.Goods
         {
 			if (id.HasValue)
 			{
-				var r = await new GoodsStore().SelectAtAsync(id.Value);
+				var r = await _goodsStore.SelectAtAsync(id.Value);
 				if(r != null)
 				{
 					Goods = r;
 
-					StocktakingEvent = await new StocktakingEventStore().SelectAtGoodsAsync(id.Value);
+					StocktakingEvent = await _stocktakingEventStore.SelectAtGoodsAsync(id.Value);
 
                     return Page();
 				}
@@ -38,14 +46,14 @@ namespace GoodsTime.Pages.Goods
 		{
 			if (id.HasValue)
 			{
-				var updateModel = await new GoodsStore().SelectAtAsync(id.Value);
+				var updateModel = await _goodsStore.SelectAtAsync(id.Value);
                 if (updateModel != null)
 				{
 					// âÊñ ï\é¶éûÇÃUpdateIdÇéÊìæ(äyäœîrëº)
 					var oldUpdateId = Goods.UpdateId;
 
 					// ìoò^èàóù
-					var result = new GoodsStore().UpdateAtAsync(id.Value, oldUpdateId, Goods.AsUpdateModel());
+					var result = _goodsStore.UpdateAtAsync(id.Value, oldUpdateId, Goods.AsUpdateModel());
 
                     return RedirectToPage("/Goods/Index");
                 }
