@@ -1,21 +1,28 @@
 ﻿@page
 @using GoodsTime.Models.Extensions
 @model GoodsTime.Pages.Goods.EditModel
+@section styles {
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+}
 @section scripts {
-<script type="text/javascript" src="/js/jquery.qrcode.min.js"></script>
-<script>
-	$(function() {
-		var url = "@Model.Goods.CreateUrl()"
-		$("#qrcode").qrcode({ width: 128, height: 128, text: url });
-	})
-</script>
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<script type="text/javascript" src="/js/jquery.qrcode.min.js"></script>
+	<script>
+		$(function() {
+			var url = "@Model.Goods.CreateUrl()"
+			$("#qrcode").qrcode({ width: 128, height: 128, text: url });
+		})
+	</script>
+	<script>
+		flatpickr(".date-control", { dateFormat: "Y/m/d" });
+	</script>
 }
 @{
 }
 
 <div class="container">
 	<div class="row">
-		<div class="col-md-8">
+		<div class="col-md-12">
 			<form method="post">
 				<div class="mb-3">
 					<label asp-for="Goods.Number" class="control-label"></label>
@@ -27,6 +34,27 @@
 					<label asp-for="Goods.Description" class="control-label"></label>
 					<input asp-for="Goods.Description" class="form-control" />
 					<span asp-validation-for="Goods.Description" class="text-danger"></span>
+				</div>
+
+				<div class="input-group mb-3">
+					<label asp-for="Goods.GetDate" class="input-group-text"></label>
+					<input asp-for="Goods.GetDate" class="form-control date-control" placeholder="Click..." />
+					<label asp-for="Goods.ReleaseDate" class="input-group-text"></label>
+					<input asp-for="Goods.ReleaseDate" class="form-control date-control" placeholder="Click..." />
+					<span asp-validation-for="Goods.GetDate" class="text-danger"></span>
+					<span asp-validation-for="Goods.ReleaseDate" class="text-danger"></span>
+				</div>
+
+				<div class="input-group mb-3">
+					<label asp-for="Goods.ReleaseFlag" class="input-group-text"></label>
+					<div class="input-group-text">
+						<input asp-for="Goods.ReleaseFlag" type="checkbox" class="form-check-input mt-0" />
+					</div>
+					<input asp-for="Goods.ReleaseDescription" class="form-control" placeholder="破棄理由" />
+				</div>
+
+				<div class="mb-3">
+					<span asp-validation-for="Goods.ReleaseFlag" class="text-danger"></span>
 				</div>
 
 				<div class="mb-3">

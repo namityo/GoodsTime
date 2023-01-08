@@ -20,3 +20,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/* bootstrap ‚Æ flatpickr ‚ğ‘g‚İ‡‚í‚¹‚é‚ÆŠDF‚É‚È‚é–â‘è‚ğ‰ü‘P */
+.form-control.form-control[readonly] {
+    background-color: initial;
+}

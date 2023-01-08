@@ -21,8 +21,8 @@ namespace GoodsTime.Pages.Goods
         {
             var now = DateTime.Now.ToString();
 
-            Goods.RegisterDate= now;
-            Goods.UpdateDate= now;
+            Goods.RegisterDate = now;
+            Goods.UpdateDate = now;
 
 			// ìoò^èàóù
 			var cs = $"Data Source=db.sqlite;Version=3;";

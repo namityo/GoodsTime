@@ -11,13 +11,20 @@ namespace GoodsTime.Pages.Goods
 		[BindProperty]
 		public IEnumerable<Models.Goods> Items { get; set; } = new List<Models.Goods>();
 
-        public void OnGet()
+        public void OnGet(int? release)
         {
 			var cs = $"Data Source=db.sqlite;Version=3;";
 			using (var connection = new SQLiteConnection(cs))
 			using (var db = new QueryFactory(connection, new SqliteCompiler()))
 			{
-				Items = db.Query("Goods").Get<Models.Goods>().ToList();
+				if (release.HasValue)
+				{
+					Items = db.Query("Goods").Where("ReleaseFlag", release.Value).Get<Models.Goods>().ToList();
+				}
+				else
+				{
+					Items = db.Query("Goods").Where("ReleaseFlag", 0).Get<Models.Goods>().ToList();
+				}
 			}
 		}
     }

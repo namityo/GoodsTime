@@ -39,6 +39,10 @@ namespace GoodsTime.Pages.Goods
 					// XV‚·‚é“à—e‚ğ‘‚«Š·‚¦‚é
 					r.Number = Goods.Number;
 					r.Description = Goods.Description;
+					r.GetDate = Goods.GetDate;
+					r.ReleaseDate = Goods.ReleaseDate;
+					r.ReleaseFlag = Goods.ReleaseFlag;
+					r.ReleaseDescription = Goods.ReleaseDescription;
 					r.Refresh();
 
 					// “o˜^ˆ—

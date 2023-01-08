@@ -12,6 +12,10 @@ using (var connection = new SQLiteConnection(cs))
             Id integer primary key autoincrement,
             Number text,
             Description text,
+            GetDate text,
+            ReleaseDate text,
+            ReleaseFlag integer default 0 not null,
+            ReleaseDescription text,
             RegisterDate text not null,
             UpdateDate text not null,
             UpdateId text not null

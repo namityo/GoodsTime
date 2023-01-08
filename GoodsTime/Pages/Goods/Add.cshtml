@@ -2,10 +2,19 @@
 @model GoodsTime.Pages.Goods.AddModel
 @{
 }
+@section styles {
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+}
+@section scripts {
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<script>
+		flatpickr(".date-control", { dateFormat: "Y/m/d" });
+	</script>
+}
 
 <div class="container">
 	<div class="row">
-		<div class="col-md-8">
+		<div class="col-md-12">
 			<form method="post">
 				<div class="mb-3">
 					<label asp-for="Goods.Number" class="control-label"></label>
@@ -17,6 +26,16 @@
 					<label asp-for="Goods.Description" class="control-label"></label>
 					<input asp-for="Goods.Description" class="form-control" />
 					<span asp-validation-for="Goods.Description" class="text-danger"></span>
+				</div>
+
+
+				<div class="input-group mb-3">
+					<label asp-for="Goods.GetDate" class="input-group-text"></label>
+					<input asp-for="Goods.GetDate" class="form-control date-control" placeholder="Click..." />
+					<label asp-for="Goods.ReleaseDate" class="input-group-text"></label>
+					<input asp-for="Goods.ReleaseDate" class="form-control date-control" placeholder="Click..." />
+					<span asp-validation-for="Goods.GetDate" class="text-danger"></span>
+					<span asp-validation-for="Goods.ReleaseDate" class="text-danger"></span>
 				</div>
 
 				<div class="mb-3">
