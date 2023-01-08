@@ -27,6 +27,7 @@ using (var connection = new SQLiteConnection(cs))
     var sqlStocktakingEventTable = """
         create table if not exists StocktakingEvent (
             Id integer primary key autoincrement,
+            Name text,
             CreatedAt text not null
             )
         """;

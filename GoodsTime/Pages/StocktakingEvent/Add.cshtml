@@ -1,0 +1,23 @@
+﻿@page
+@model GoodsTime.Pages.StocktakingEvent.AddModel
+@{
+	ViewData["Title"] = "棚卸登録";
+}
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<form method="post">
+				<div class="mb-3">
+					<label asp-for="Event.Name" class="control-label"></label>
+					<input asp-for="Event.Name" class="form-control" />
+					<span asp-validation-for="Event.Name" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<input type="submit" value="Create" class="btn btn-primary" />
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

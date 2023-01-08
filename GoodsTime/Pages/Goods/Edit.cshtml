@@ -9,13 +9,6 @@
 }
 @section scripts {
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-	<script type="text/javascript" src="/js/jquery.qrcode.min.js"></script>
-	<script>
-		$(function() {
-			var url = "@Model.Goods.CreateUrl()"
-			$("#qrcode").qrcode({ width: 128, height: 128, text: url });
-		})
-	</script>
 	<script>
 		flatpickr(".date-control", { dateFormat: "Y/m/d" });
 	</script>
@@ -80,7 +73,7 @@
 					</div>
 				</div>
 
-				<div class="col-md- md-1">
+				<div class="col-md-6 md-1">
 					<label asp-for="Goods.ReleaseDescription" class="control-label"></label>
 					<input asp-for="Goods.ReleaseDescription" class="form-control" />
 					<span asp-validation-for="Goods.ReleaseDescription" class="text-danger"></span>
@@ -96,9 +89,26 @@
 			</div>
 		</form>
 	</div>
+
 	<div class="row">
 		<div class="col-md-12">
-			<div id="qrcode"></div>
+			<table class="table table-sm table-striped">
+                <thead>
+                    <tr>
+						<th scope="col">棚卸名</th>
+                        <th scope="col">棚卸日時</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.StocktakingEvent)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.CreatedAt.ToString("yyyy/MM/dd")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
 		</div>
 	</div>
 </div>

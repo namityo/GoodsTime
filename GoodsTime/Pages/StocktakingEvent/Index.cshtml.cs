@@ -25,23 +25,5 @@ namespace GoodsTime.Pages.StocktakingEvent
                 Items = db.Query(nameof(Models.StocktakingEvent)).OrderByDesc("CreatedAt").Get<Models.StocktakingEvent>().ToList();
             }
         }
-
-        public async Task<IActionResult> OnPostAsync()
-        {
-            // 棚卸のデータを生成
-            var cs = $"Data Source=db.sqlite;Version=3;";
-            using (var connection = new SQLiteConnection(cs))
-            using (var db = new QueryFactory(connection, new SqliteCompiler()))
-            {
-                db.Logger = compiled => {
-                    Console.WriteLine(compiled.ToString());
-                };
-
-                await db.Query(nameof(Models.StocktakingEvent)).InsertAsync(new Models.StocktakingEvent());
-            }
-
-            // リダイレクト
-            return RedirectToPage("/StocktakingEvent/Index");
-        }
     }
 }

@@ -11,6 +11,10 @@ namespace GoodsTime.Pages.Goods
 		[BindProperty]
 		public Models.Goods Goods { get; set; } = new Models.Goods();
 
+		[BindProperty]
+		public IEnumerable<Models.StocktakingEvent> StocktakingEvent { get; set; } = new List<Models.StocktakingEvent>();
+
+
 		public async Task<IActionResult> OnGetAsync(int? id)
         {
 			if (id.HasValue)
@@ -19,7 +23,10 @@ namespace GoodsTime.Pages.Goods
 				if(r != null)
 				{
 					Goods = r;
-					return Page();
+
+					StocktakingEvent = await SelectStocktakingEvent(id.Value);
+
+                    return Page();
 				}
 			}
 
@@ -85,5 +92,24 @@ namespace GoodsTime.Pages.Goods
 				}
 			}
 		}
+
+		private async ValueTask<IEnumerable<Models.StocktakingEvent>> SelectStocktakingEvent(int id)
+		{
+            var cs = $"Data Source=db.sqlite;Version=3;";
+            using (var connection = new SQLiteConnection(cs))
+            using (var db = new QueryFactory(connection, new SqliteCompiler()))
+            {
+                db.Logger = compiled => {
+                    Console.WriteLine(compiled.ToString());
+                };
+
+                var result = await db.Query("StocktakingEvent")
+                    .Join("StocktakingGoodsEvent", "StocktakingEvent.Id", "StocktakingGoodsEvent.StocktakingId")
+					.Where("StocktakingGoodsEvent.GoodsId", id)
+					.GetAsync<Models.StocktakingEvent>();
+
+				return result.ToList();
+            }
+        }
 	}
 }
