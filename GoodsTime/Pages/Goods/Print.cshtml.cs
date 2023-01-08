@@ -24,7 +24,7 @@ namespace GoodsTime.Pages.Goods
         {
             if (Targets.Any())
             {
-                Items = await new GoodsStore().SelectAt(Targets);
+                Items = await new GoodsStore().SelectAtAsync(Targets);
 
 				// S3‚É“o˜^‚·‚é
 				var uploader = new S3Uploader<Models.Goods>();

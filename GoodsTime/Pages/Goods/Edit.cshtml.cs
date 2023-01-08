@@ -20,7 +20,7 @@ namespace GoodsTime.Pages.Goods
         {
 			if (id.HasValue)
 			{
-				var r = await new GoodsStore().SelectAt(id.Value);
+				var r = await new GoodsStore().SelectAtAsync(id.Value);
 				if(r != null)
 				{
 					Goods = r;
@@ -38,7 +38,7 @@ namespace GoodsTime.Pages.Goods
 		{
 			if (id.HasValue)
 			{
-				var r = await new GoodsStore().SelectAt(id.Value);
+				var r = await new GoodsStore().SelectAtAsync(id.Value);
                 if (r != null)
 				{
 					// âÊñ ï\é¶éûÇÃUpdateIdÇéÊìæ(äyäœîrëº)
@@ -54,7 +54,7 @@ namespace GoodsTime.Pages.Goods
 					r.Refresh();
 
 					// ìoò^èàóù
-					var result = new GoodsStore().UpdateAt(r, oldUpdateId);
+					var result = new GoodsStore().UpdateAtAsync(r, oldUpdateId);
 
                     return RedirectToPage("/Goods/Index");
                 }

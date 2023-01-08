@@ -14,7 +14,7 @@ namespace GoodsTime.Pages.Goods
 
         public async Task OnGet(int? release)
         {
-            Items = await new GoodsStore().Select(release.HasValue ? release.Value : 0);
+            Items = await new GoodsStore().SelectAsync(release.HasValue ? release.Value : 0);
 		}
     }
 }

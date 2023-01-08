@@ -25,7 +25,7 @@ namespace GoodsTime.Pages.Goods
             Goods.RegisterDate = now;
             Goods.UpdateDate = now;
 
-            await new GoodsStore().Add(Goods);
+            await new GoodsStore().AddAsync(Goods);
 
 			return RedirectToPage("/Goods/Index");
         }

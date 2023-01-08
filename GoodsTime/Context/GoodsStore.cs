@@ -10,7 +10,7 @@ namespace GoodsTime.Context
 
         private Query Query => QueryFactory.Query(TABLE_NAME);
 
-        public async ValueTask<IEnumerable<Goods>> Select(int releaseType = 0)
+        public async ValueTask<IEnumerable<Goods>> SelectAsync(int releaseType = 0)
         {
             var result = await Query
                 .OrderByDesc("UpdateDate")
@@ -20,14 +20,14 @@ namespace GoodsTime.Context
             return result.ToList();
         }
 
-        public async ValueTask<IEnumerable<Goods>> SelectAt(IEnumerable<int> ids)
+        public async ValueTask<IEnumerable<Goods>> SelectAtAsync(IEnumerable<int> ids)
         {
             var result = await Query.WhereIn("Id", ids).GetAsync<Goods>();
 
             return result.ToList();
         }
 
-        public async ValueTask<Goods?> SelectAt(int id)
+        public async ValueTask<Goods?> SelectAtAsync(int id)
         {
             var result = await Query
                 .Where("Id", id)
@@ -36,12 +36,12 @@ namespace GoodsTime.Context
             return result.FirstOrDefault();
         }
 
-        public async ValueTask Add(Goods goods)
+        public async ValueTask AddAsync(Goods goods)
         {
             await Query.InsertAsync(goods);
         }
 
-        public async ValueTask<int> UpdateAt(Goods goods, string updateId)
+        public async ValueTask<int> UpdateAtAsync(Goods goods, string updateId)
         {
             return await Query
                 .Where("Id", goods.Id)
