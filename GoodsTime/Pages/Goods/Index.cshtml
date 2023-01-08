@@ -2,17 +2,28 @@
 @model GoodsTime.Pages.Goods.IndexModel
 @{
 }
+@section scripts {
+    <script>
+        $(function() {
+            $('input.form-check-input').on('change', function () {
+                var len = $('input.form-check-input:checked').length;
+                $('#PrintButton').attr('disabled', len == 0);
+            })
+        })
+    </script>
+}
 
 <div class="row">
     <div class="col-md-12">
         <form method="POST">
-            <table class="table">
+            <table class="table table-sm table-striped">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">出力</th>
                         <th scope="col">備品番号</th>
-                        <th scope="col">登録日時</th>
+                        <th scope="col">取得日</th>
+                        <th scope="col">破棄／返却予定日</th>
                         <th scope="col">最終更新日時</th>
                         <th scope="col"></th>
                     </tr>
@@ -24,16 +35,16 @@
                             <th scope="row">@item.Id</th>
                             <td><input class="form-check-input" type="checkbox" value="@item.Id" name="Targets" /></td>
                             <td>@item.Number</td>
-                            <td>@item.RegisterDate</td>
+                            <td>@item.GetDate</td>
+                            <td>@item.ReleaseDate</td>
                             <td>@item.UpdateDate</td>
-                            <td><a class="btn btn-outline-info" href="./Goods/Edit?id=@item.Id" role="button">Info</a></td>
+                            <td><a class="btn btn-success" href="./Goods/Edit?id=@item.Id" role="button">編集</a></td>
                         </tr>
                     }
                 </tbody>
             </table>
 
-            <input class="btn btn-info" asp-page-handler="Print" asp-page="Print" type="submit" value="Print" />
-            <a class="btn btn-info" href="./Goods/Add" role="button">Add</a>
+            <input id="PrintButton" class="btn btn-outline-secondary" asp-page-handler="Print" asp-page="Print" type="submit" value="ラベル印刷" disabled />
         </form>
     </div>
 </div>

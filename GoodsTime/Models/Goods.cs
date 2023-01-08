@@ -16,11 +16,14 @@ namespace GoodsTime.Models
         [DisplayName("取得日")]
         public string GetDate { get; set; } = string.Empty;
 
-        [DisplayName("破棄／返却日")]
+        [DisplayName("破棄予定日")]
         public string ReleaseDate { get; set; } = string.Empty;
 
         [DisplayName("破棄")]
         public bool ReleaseFlag { get; set; } = false;
+
+        [DisplayName("破棄日")]
+        public string ReleasedDate { get; set; } = string.Empty;
 
         [DisplayName("破棄理由")]
         public string ReleaseDescription { get; set; } = string.Empty;

@@ -15,6 +15,7 @@ using (var connection = new SQLiteConnection(cs))
             GetDate text,
             ReleaseDate text,
             ReleaseFlag integer default 0 not null,
+            ReleasedDate text,
             ReleaseDescription text,
             RegisterDate text not null,
             UpdateDate text not null,

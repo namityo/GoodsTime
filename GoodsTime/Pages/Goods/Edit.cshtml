@@ -1,6 +1,9 @@
 ﻿@page
 @using GoodsTime.Models.Extensions
 @model GoodsTime.Pages.Goods.EditModel
+@{
+	ViewData["Title"] = "備品編集";
+}
 @section styles {
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 }
@@ -17,54 +20,69 @@
 		flatpickr(".date-control", { dateFormat: "Y/m/d" });
 	</script>
 }
-@{
-}
 
 <div class="container">
-	<div class="row">
-		<div class="col-md-12">
-			<form method="post">
-				<div class="mb-3">
+	<div>
+		<form method="post">
+			<div class="row mb-3">
+				<div class="col-md-6">
 					<label asp-for="Goods.Number" class="control-label"></label>
 					<input asp-for="Goods.Number" class="form-control" />
 					<span asp-validation-for="Goods.Id" class="text-danger"></span>
 				</div>
-
-				<div class="mb-3">
+			</div>
+			<div class="row mb-3">
+				<div class="col-md-12">
 					<label asp-for="Goods.Description" class="control-label"></label>
 					<input asp-for="Goods.Description" class="form-control" />
 					<span asp-validation-for="Goods.Description" class="text-danger"></span>
 				</div>
-
-				<div class="input-group mb-3">
-					<label asp-for="Goods.GetDate" class="input-group-text"></label>
-					<input asp-for="Goods.GetDate" class="form-control date-control" placeholder="Click..." />
-					<label asp-for="Goods.ReleaseDate" class="input-group-text"></label>
-					<input asp-for="Goods.ReleaseDate" class="form-control date-control" placeholder="Click..." />
-					<span asp-validation-for="Goods.GetDate" class="text-danger"></span>
-					<span asp-validation-for="Goods.ReleaseDate" class="text-danger"></span>
-				</div>
-
-				<div class="input-group mb-3">
-					<label asp-for="Goods.ReleaseFlag" class="input-group-text"></label>
-					<div class="input-group-text">
-						<input asp-for="Goods.ReleaseFlag" type="checkbox" class="form-check-input mt-0" />
+			</div>
+			<div class="row mb-3">
+				<div class="col-md-6 mb-1">
+					<div class="input-group">
+						<label asp-for="Goods.GetDate" class="input-group-text"></label>
+						<input asp-for="Goods.GetDate" class="form-control date-control" placeholder="Click..." />
+						<span asp-validation-for="Goods.GetDate" class="text-danger"></span>
 					</div>
-					<input asp-for="Goods.ReleaseDescription" class="form-control" placeholder="破棄理由" />
 				</div>
 
-				<div class="mb-3">
-					<span asp-validation-for="Goods.ReleaseFlag" class="text-danger"></span>
+				<div class="col-md-6 mb-1">
+					<div class="input-group">
+						<label asp-for="Goods.ReleaseDate" class="input-group-text"></label>
+						<input asp-for="Goods.ReleaseDate" class="form-control date-control" placeholder="Click..." />
+						<span asp-validation-for="Goods.GetDate" class="text-danger"></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row mb-3">
+				<div class="col-md-6 mb-1">
+					<label asp-for="Goods.ReleaseFlag" class="control-label"></label>
+					<div class="input-group">
+						<div class="input-group-text">
+							<input asp-for="Goods.ReleaseFlag" type="checkbox" class="form-check-input mt-0" />
+						</div>
+						<label asp-for="Goods.ReleasedDate" class="input-group-text"></label>
+						<input asp-for="Goods.ReleasedDate" class="form-control date-control" placeholder="Click..." />
+					</div>
 				</div>
 
-				<div class="mb-3">
+				<div class="col-md- md-1">
+					<label asp-for="Goods.ReleaseDescription" class="control-label"></label>
+					<input asp-for="Goods.ReleaseDescription" class="form-control" />
+					<span asp-validation-for="Goods.ReleaseDescription" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="mb-1">
 					<input type="submit" value="Update" class="btn btn-primary" />
 
 					<!-- これSessionが使えるといい -->
 					<input hidden asp-for="Goods.UpdateId" class="form-control" />
 				</div>
-			</form>
-		</div>
+			</div>
+		</form>
 	</div>
 	<div class="row">
 		<div class="col-md-12">
