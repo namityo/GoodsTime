@@ -1,3 +1,4 @@
+using GoodsTime.Context;
 using SqlKata.Compilers;
 using SqlKata.Execution;
 using System.Data.SQLite;
@@ -49,6 +50,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddScoped<GoodsStore>();
+builder.Services.AddScoped<StocktakingEventStore>();
+builder.Services.AddScoped<StocktakingGoodsEventStore>();
 
 var app = builder.Build();
 
