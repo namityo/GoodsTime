@@ -1,0 +1,33 @@
+﻿@page
+@model GoodsTime.Pages.StocktakingEvent.IndexModel
+@{
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <input class="btn btn-outline-secondary" type="submit" value="新しい棚卸を行う" />
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">棚卸実施日</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>@item.CreatedAt.ToString("yyyy/MM/dd")</td>
+                        <td><a class="btn btn-success" href="/StocktakingEvent/Taking?id=@item.Id" role="button">棚卸する</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodsTime", "GoodsTime\GoodsTime.csproj", "{70997EC7-5E18-4A5D-97E0-33FE4CE3D81A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodsTimeTest", "GoodsTimeTest\GoodsTimeTest.csproj", "{B645B07A-B0CA-4539-9A11-1C3ECC11BDE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodsTimeTest", "GoodsTimeTest\GoodsTimeTest.csproj", "{B645B07A-B0CA-4539-9A11-1C3ECC11BDE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

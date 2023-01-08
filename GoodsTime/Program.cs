@@ -7,7 +7,7 @@ var cs = $"Data Source=db.sqlite;Version=3;";
 using (var connection = new SQLiteConnection(cs))
 {
     connection.Open();
-    var sql = """
+    var sqlGoodsTable = """
         create table if not exists Goods (
             Id integer primary key autoincrement,
             Number text,
@@ -22,8 +22,24 @@ using (var connection = new SQLiteConnection(cs))
             UpdateId text not null
             )
         """;
-    var com = new SQLiteCommand(sql, connection);
-    com.ExecuteNonQuery();
+    new SQLiteCommand(sqlGoodsTable, connection).ExecuteNonQuery();
+
+    var sqlStocktakingEventTable = """
+        create table if not exists StocktakingEvent (
+            Id integer primary key autoincrement,
+            CreatedAt text not null
+            )
+        """;
+    new SQLiteCommand(sqlStocktakingEventTable, connection).ExecuteNonQuery();
+
+	var sqlStocktakingGoodsEventTable = """
+        create table if not exists StocktakingGoodsEvent (
+            StocktakingId integer not null,
+            GoodsId integer not null,
+            primary key ( StocktakingId, GoodsId )
+            )
+        """;
+	new SQLiteCommand(sqlStocktakingGoodsEventTable, connection).ExecuteNonQuery();
 }
 
 
