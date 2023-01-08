@@ -18,8 +18,8 @@ namespace GoodsTimeTest
                 Id = 1,
                 Number = "TESTHOGEHOGE000001-001",
                 Description = "テストデータです",
-                RegisterDate = DateTime.Now.ToString(),
-                UpdateDate = DateTime.Now.ToString(),
+                RegisterDate = DateTime.Now,
+                UpdateDate = DateTime.Now,
             };
             new S3Uploader<Goods>().UploadGoodsAsync(obj).Wait();
         }

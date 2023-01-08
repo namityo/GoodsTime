@@ -33,9 +33,9 @@
                         <tr>
                             <td><input class="form-check-input" type="checkbox" value="@item.Id" name="Targets" /></td>
                             <td>@item.Number</td>
-                            <td>@item.GetDate</td>
-                            <td>@item.ReleaseDate</td>
-                            <td>@item.UpdateDate</td>
+                            <td>@item.GetDate?.ToString("yyyy/MM/dd")</td>
+                            <td>@item.ReleaseDate?.ToString("yyyy/MM/dd")</td>
+                            <td>@item.UpdateDate.ToString("yyyy/MM/dd HH:mm:ss")</td>
                             <td><a class="btn btn-success" href="/Goods/Edit?id=@item.Id" role="button">編集</a></td>
                         </tr>
                     }

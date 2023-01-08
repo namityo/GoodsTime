@@ -17,14 +17,13 @@ namespace GoodsTime.Pages.Goods
 			using (var connection = new SQLiteConnection(cs))
 			using (var db = new QueryFactory(connection, new SqliteCompiler()))
 			{
-				if (release.HasValue)
-				{
-					Items = db.Query("Goods").Where("ReleaseFlag", release.Value).Get<Models.Goods>().ToList();
-				}
-				else
-				{
-					Items = db.Query("Goods").Where("ReleaseFlag", 0).Get<Models.Goods>().ToList();
-				}
+				db.Logger = compiled => {
+					Console.WriteLine(compiled.ToString());
+				};
+
+				var query = db.Query("Goods").OrderByDesc("UpdateDate");
+				query = release.HasValue ? query.Where("ReleaseFlag", release.Value) : query.Where("ReleaseFlag", 0);
+				Items = query.Get<Models.Goods>().ToList();
 			}
 		}
     }

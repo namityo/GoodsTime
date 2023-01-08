@@ -19,7 +19,7 @@ namespace GoodsTime.Pages.Goods
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var now = DateTime.Now.ToString();
+            var now = DateTime.Now;
 
             Goods.RegisterDate = now;
             Goods.UpdateDate = now;
