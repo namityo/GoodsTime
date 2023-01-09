@@ -1,3 +1,4 @@
+using Amazon;
 using GoodsTime.Context;
 using GoodsTime.Models;
 
@@ -21,7 +22,13 @@ namespace GoodsTimeTest
                 RegisterDate = DateTime.Now,
                 UpdateDate = DateTime.Now,
             };
-            new S3Uploader<Goods>().UploadGoodsAsync(obj).Wait();
+            new S3Uploader<Goods>()
+            {
+                RegionEndpoint = RegionEndpoint.APNortheast1,
+                BucketName = "consisthackathon2023app",
+                KeyPrefix = "data/",
+                KeySuffix = ".json",
+            }.UploadGoodsAsync(obj).Wait();
         }
     }
 }

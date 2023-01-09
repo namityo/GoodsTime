@@ -1,4 +1,6 @@
+using Amazon;
 using GoodsTime.Context;
+using GoodsTime.Models;
 using SqlKata.Compilers;
 using SqlKata.Execution;
 using System.Data.SQLite;
@@ -51,9 +53,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+// Add Store
 builder.Services.AddScoped<GoodsStore>();
 builder.Services.AddScoped<StocktakingEventStore>();
 builder.Services.AddScoped<StocktakingGoodsEventStore>();
+// Add S3Uploader
+builder.Services.AddScoped<S3Uploader<Goods>>((sp) => new S3Uploader<Goods>()
+{
+    RegionEndpoint = RegionEndpoint.APNortheast1,
+    BucketName = "consisthackathon2023app",
+    KeyPrefix = "data/",
+    KeySuffix = ".json",
+});
 
 var app = builder.Build();
 

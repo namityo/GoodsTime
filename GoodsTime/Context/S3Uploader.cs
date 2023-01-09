@@ -7,11 +7,13 @@ namespace GoodsTime.Context
 {
     public class S3Uploader<T>
     {
-        public string BucketName { get; set; } = "consisthackathon2023app";
+        public string BucketName { get; set; } = string.Empty;
 
         public RegionEndpoint RegionEndpoint { get; set; } = RegionEndpoint.APNortheast1;
 
-        public string RelativePath { get; set; } = "data";
+        public string KeyPrefix { get; set; } = string.Empty;
+
+        public string KeySuffix { get; set; } = string.Empty;
 
         public async Task UploadGoodsAsync(T obj)
         {
@@ -24,7 +26,7 @@ namespace GoodsTime.Context
                 var request = new PutObjectRequest()
                 {
                     BucketName = BucketName,
-                    Key = string.Concat("data/", hash, ".json"),
+                    Key = string.Concat(KeyPrefix, hash, KeySuffix),
                     InputStream = new MemoryStream(data)
                 };
 
